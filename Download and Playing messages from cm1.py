@@ -1,13 +1,12 @@
-from playsound import playsound
 import datetime
 import sounddevice as sd
 from scipy.io.wavfile import write
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+import pygame
 
 ## Access Drive
 gauth = GoogleAuth()    
-
 drive = GoogleDrive(gauth)
 
 gauth.LoadCredentialsFile("credentials.txt") #so we don't have to log in every time
@@ -24,7 +23,12 @@ for file in file_list:
 for i, file in enumerate(sorted(file_list, key = lambda x: x['title']), start=1):
 	print('Downloading {} file from GDrive ({}/{})'.format(file['title'], i, len(file_list)))
 	file.GetContentFile(file['title'])
-	playsound(file['title'])
+	pygame.mixer.init()
+	pygame.mixer.music.load(file['title'])
+	pygame.mixer.music.play()
+
+	while pygame.mixer.music.get_busy():
+		continue
 
 	print(file['id']) #this prints out the file id for each file
 
