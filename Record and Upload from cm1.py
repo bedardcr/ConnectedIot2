@@ -1,11 +1,12 @@
 import os
 from oauth2client import file
-from playsound import playsound
 import datetime
 import sounddevice as sd
 from scipy.io.wavfile import write
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+import pydub
+import pygame
 import time
 
 ## Record audio
@@ -16,14 +17,24 @@ duration = 5 #seconds --> This will change later but for Alpha Prototype 1 will 
 
 myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
 sd.wait()
-filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm1.wav"
-#If it is hard for the computer to understand which filename is sooner based off of this system we can use Epoch and Unix Timestamp
-write(filename, fs, myrecording)
+filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year}_{datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm1"
 
-print (filename)
+wav_filename = filename + ".wav"
+write(wav_filename, fs, myrecording)
+
+sound = pydub.AudioSegment.from_wav(wav_filename)
+sound.export(filename + ".mp3", format = "mp3")
+os.remove(filename + ".wav")
+
+print (filename + ".mp3")
 
 #so it plays it back immediately after user records it 
-playsound(filename)
+pygame.mixer.init()
+pygame.mixer.music.load(filename + ".mp3")
+pygame.mixer.music.play()
+
+while pygame.mixer.music.get_busy() == True:
+	continue 
 
 #if button is pressed then upload it to google drive
 ## Upload to Google Drive
