@@ -41,7 +41,7 @@ while pygame.mixer.music.get_busy() == True:
 gauth = GoogleAuth()           
 drive = GoogleDrive(gauth)
 gauth.LoadCredentialsFile("credentials.txt") #this allows us to not have to log in every time
-upload_file_list = [filename]
+upload_file_list = [filename + ".mp3"]
 for upload_file in upload_file_list:
 	gfile = drive.CreateFile({'parents': [{'id': '1DFuq54zgnPkIpoLeQaQd4dO3iH6_o69l'}]})
 	# Read file and set it as the content of this instance.

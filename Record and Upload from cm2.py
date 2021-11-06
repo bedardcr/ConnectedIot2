@@ -20,7 +20,7 @@ sd.wait()
 filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm2"
 
 wav_filename = filename + ".wav"
-write(filename, fs, myrecording)
+write(wav_filename, fs, myrecording)
 
 sound = pydub.AudioSegment.from_wav(wav_filename)
 sound.export(filename + ".mp3", format = "mp3")
@@ -41,7 +41,7 @@ while pygame.mixer.music.get_busy() == True:
 gauth = GoogleAuth()           
 drive = GoogleDrive(gauth)
 gauth.LoadCredentialsFile("credentials.txt") #this allows us to not have to log in every time
-upload_file_list = [filename]
+upload_file_list = [filename + ".mp3"]
 for upload_file in upload_file_list:
 	gfile = drive.CreateFile({'parents': [{'id': '1ywQqK_uGBJfJAaOMXFf_o3Z3_7jaRSLK'}]})
 	# Read file and set it as the content of this instance.
