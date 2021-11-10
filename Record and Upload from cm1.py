@@ -8,6 +8,7 @@ from pydrive.drive import GoogleDrive
 import pydub
 import pygame
 import time
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
 ## Record audio
     #Used this resource for help with this code: https://realpython.com/playing-and-recording-sound-python/#conclusion-playing-and-recording-sound-in-python
@@ -42,12 +43,24 @@ gauth = GoogleAuth()
 drive = GoogleDrive(gauth)
 gauth.LoadCredentialsFile("credentials.txt") #this allows us to not have to log in every time
 upload_file_list = [filename + ".mp3"]
-for upload_file in upload_file_list:
-	gfile = drive.CreateFile({'parents': [{'id': '1DFuq54zgnPkIpoLeQaQd4dO3iH6_o69l'}]})
-	# Read file and set it as the content of this instance.
-	gfile.SetContentFile(upload_file)
-    # Upload the file
-	gfile.Upload()
+
+def button_callback(channel):
+	for upload_file in upload_file_list:
+		gfile = drive.CreateFile({'parents': [{'id': '1DFuq54zgnPkIpoLeQaQd4dO3iH6_o69l'}]})
+		# Read file and set it as the content of this instance.
+		gfile.SetContentFile(upload_file)
+    	# Upload the file
+		gfile.Upload()
+
+GPIO.setwarnings(False) # Ignore warning for now
+GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+
+GPIO.add_event_detect(10,GPIO.RISING,callback=button_callback) # Setup event on pin 10 rising edge
+
+message = input("Press enter to quit\n\n") # Run until someone presses enter
+
+GPIO.cleanup() # Clean up
 
 #Delete from Raspberry pi (CronJob) this will delete all things that have cm1 (can run daily)
 #CronJob also can have the program run every 10 minutes
