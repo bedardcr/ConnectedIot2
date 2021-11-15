@@ -18,6 +18,7 @@ file_ready = False
     #Used this resource for help with this code: https://realpython.com/playing-and-recording-sound-python/#conclusion-playing-and-recording-sound-in-python
     #Also https://python-sounddevice.readthedocs.io/en/latest/usage.html#recording
 def record_audio(channel):
+	print("Recording...")
 	fs = 44100 #records at 44100 samples per second
 	duration = 5 #seconds --> This will change later but for Alpha Prototype 1 will stay as 5 seconds
 
