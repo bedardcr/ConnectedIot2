@@ -13,7 +13,6 @@ import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year}_{datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm1"
 file_ready = False
 
-
 ## Record audio
     #Used this resource for help with this code: https://realpython.com/playing-and-recording-sound-python/#conclusion-playing-and-recording-sound-in-python
     #Also https://python-sounddevice.readthedocs.io/en/latest/usage.html#recording
@@ -47,7 +46,6 @@ def record_audio(channel):
 	file_ready = True
 
 #if button is pressed then upload it to google drive
-## Upload to Google Drive
 def upload_button(channel):
 
 	global file_ready
