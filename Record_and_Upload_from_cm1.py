@@ -72,11 +72,11 @@ def upload_button(channel):
 
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
-GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) #set pin 8
+GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 20 to be an input pin and set initial value to be pulled low (off)
+GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) #set pin 21
 
-GPIO.add_event_detect(10,GPIO.RISING,callback=upload_button) # Setup event on pin 10 rising edge
-GPIO.add_event_detect(8,GPIO.RISING,callback=record_audio) # Setup event on pin 8 rising edge
+GPIO.add_event_detect(20,GPIO.RISING,callback=upload_button) # Setup event on pin 20 rising edge
+GPIO.add_event_detect(21,GPIO.RISING,callback=record_audio) # Setup event on pin 21 rising edge
 
 message = input("Press enter to quit\n\n") # Run until someone presses enter
 
