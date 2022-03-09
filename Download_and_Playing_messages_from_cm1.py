@@ -41,8 +41,12 @@ def download_and_play(channel):
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
 GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 26 to be an input pin and set initial value to be pulled low (off)
- 
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 24 to be an input pin and set initial value to be pulled low (off)
+GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 22 to be an input pin and set initial value to be pulled low (off)
+
 GPIO.add_event_detect(26,GPIO.RISING,callback=download_and_play) # Setup event on pin 26 rising edge
+GPIO.add_event_detect(24,GPIO.RISING,callback=download_and_play) # Setup event on pin 26 rising edge
+GPIO.add_event_detect(22,GPIO.RISING,callback=download_and_play) # Setup event on pin 26 rising edge
 
 message = input("Press enter to quit\n\n") # Run until someone presses enter
 
