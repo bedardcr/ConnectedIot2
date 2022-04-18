@@ -19,7 +19,7 @@ record_time = 0
     #Also https://python-sounddevice.readthedocs.io/en/latest/usage.html#recording
 def record_audio(channel):
 	global record_time
-	if (time.time() - record_time > 3):
+	if (time.time() - record_time > 8):
 		record_time = time.time()
 		print("Recording...")
 		fs = 44100 #records at 44100 samples per second
