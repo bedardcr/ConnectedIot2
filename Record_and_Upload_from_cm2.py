@@ -12,38 +12,42 @@ import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
 filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm2"
 file_ready = False
+record_time = 0
 
 ## Record audio
     #Used this resource for help with this code: https://realpython.com/playing-and-recording-sound-python/#conclusion-playing-and-recording-sound-in-python
     #Also https://python-sounddevice.readthedocs.io/en/latest/usage.html#recording
 def record_audio(channel):
-	print("Recording...")
-	fs = 44100 #records at 44100 samples per second
-	duration = 5 #seconds --> This will change later but for Alpha Prototype 1 will stay as 5 seconds
+	global record_time
+	if (time.time() - record_time > 3):
+		record_time = time.time()
+		print("Recording...")
+		fs = 44100 #records at 44100 samples per second
+		duration = 5 #seconds --> This will change later but for Alpha Prototype 1 will stay as 5 seconds
 
-	myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
-	sd.wait()
-	filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm2"
+		myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
+		sd.wait()
+		filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm2"
 
-	wav_filename = filename + ".wav"
-	write(wav_filename, fs, myrecording)
+		wav_filename = filename + ".wav"
+		write(wav_filename, fs, myrecording)
 
-	sound = pydub.AudioSegment.from_wav(wav_filename)
-	sound.export(filename + ".mp3", format = "mp3")
-	os.remove(filename + ".wav")
+		sound = pydub.AudioSegment.from_wav(wav_filename)
+		sound.export(filename + ".mp3", format = "mp3")
+		os.remove(filename + ".wav")
 
-	print (filename + ".mp3")
+		print (filename + ".mp3")
 
-	#so it plays it back immediately after user records it 
-	pygame.mixer.init()
-	pygame.mixer.music.load(filename + ".mp3")
-	pygame.mixer.music.play()
+		#so it plays it back immediately after user records it 
+		pygame.mixer.init()
+		pygame.mixer.music.load(filename + ".mp3")
+		pygame.mixer.music.play()
 
-	while pygame.mixer.music.get_busy() == True:
-		continue
+		while pygame.mixer.music.get_busy() == True:
+			continue
 
-	global file_ready
-	file_ready = True 
+		global file_ready
+		file_ready = True 
 
 #if button is pressed then upload it to google drive
 def upload_button(channel):
