@@ -10,7 +10,7 @@ import pygame
 import time
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
-filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm2"
+filename = ""
 file_ready = False
 record_time = 0
 
@@ -19,7 +19,7 @@ record_time = 0
     #Also https://python-sounddevice.readthedocs.io/en/latest/usage.html#recording
 def record_audio(channel):
 	global record_time
-	if (time.time() - record_time > 11):
+	if (time.time() - record_time > 15):
 		record_time = time.time()
 		print("Recording...")
 		fs = 44100 #records at 44100 samples per second
@@ -27,6 +27,7 @@ def record_audio(channel):
 
 		myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
 		sd.wait()
+		global filename
 		filename = f"{datetime.datetime.now().month}-{datetime.datetime.now().day}-{datetime.datetime.now().year} {datetime.datetime.now().hour}.{datetime.datetime.now().minute}-cm2"
 
 		wav_filename = filename + ".wav"

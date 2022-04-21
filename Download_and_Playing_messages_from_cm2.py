@@ -5,8 +5,10 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import pygame
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+import time
 
 def download_and_play(channel):
+	print(f"brew {time.time()}")
 	## Access Drive
 	gauth = GoogleAuth()           
 	drive = GoogleDrive(gauth)
